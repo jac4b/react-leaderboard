@@ -1,22 +1,64 @@
+body {
+  background-color: #786336;
+}
+
 .App {
-  text-align: center;
+  font-family: Arial;
 }
 
 .App-logo {
-  height: 40vmin;
+  width: 241px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.App-body {
+  text-align: center;
+}
+
+.Leaderboard-header, .NewLeader {
+  background-color: #0b1c2a;
   color: white;
+  padding: 10px;
+  text-align: left
 }
 
-.App-link {
-  color: #09d3ac;
+.NewLeader label {
+  font-size: 12px;
+  margin-right: 14px;
+}
+
+.NewLeader label input {
+  margin-left: 5px;
+}
+
+.Leaderboard {
+  width: 600px;
+  margin: 30px auto;
+  background-color: #13355a;
+  color: white;
+  padding: 20px;
+}
+
+.Leaderboard table {
+  border-collapse:collapse;
+  border-color: grey;
+  color:rgb(59, 58, 56);
+  display:table;
+  font-family:"Lucida Grande", "Lucida Sans Unicode", sans-serif;
+  font-size:11px;
+  line-height:16px;
+  margin:20px 0 30px 0;
+  overflow-wrap:normal;
+  width:100%;
+}
+
+.Leaderboard tr:nth-child(even) {
+  background-color: #dddcd2
+}
+
+.Leaderboard tr:nth-child(odd) {
+  background-color: #d4d3c8
+}
+
+.Leaderboard td {
+  border: 1px solid #c6c6bc
 }

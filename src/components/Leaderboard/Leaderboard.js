@@ -13,7 +13,7 @@ class LeaderTable extends React.Component {
 
         this.props.leaders.forEach((leader, index) => {
                 rows.push(
-                    <LeaderItem leader={leader} key={index} index={index} deleteLeader={this.props.deleteLeader} />
+                    <LeaderItem leader={leader} key={index} index={index} {...this.props} />
                 )
             }
         );
@@ -22,9 +22,9 @@ class LeaderTable extends React.Component {
             <table>
                 <thead>
                     <tr>
-                        <td>Name</td>
-                        <td>Score</td>
-                        <td></td>
+                        <td className="name">Name</td>
+                        <td className="score">Score</td>
+                        <td className="buttons"></td> 
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -37,23 +37,72 @@ class LeaderItem extends React.Component {
     constructor(props) {
         super(props);
         this.onClickDelete = this.onClickDelete.bind(this);
+        this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickCancel = this.onClickCancel.bind(this);
+        this.onClickChange = this.onClickChange.bind(this);
+        this.state = { editing: false };
     }
 
-    onClickDelete () {
+    onClickDelete() {
         this.props.deleteLeader(this.props.index);
+    }
+
+    onClickEdit() {
+        this.setState({ editing: true })
+    }
+
+    onClickCancel() {
+        this.setState({ editing: false })
+    }
+
+    onClickChange() {
+
     }
 
     render() {
         const leader = this.props.leader;
+        const editing = this.state.editing;
+        const score = leader.score;
+        const lastName = leader.lastName;
+        const firstName = leader.firstName;
 
-        return (
+        const fixedRow = (
             <tr> 
-                <td>{leader.lastName}, {leader.firstName}</td>
-                <td>{leader.score}</td>
                 <td>
+                    {lastName}, {firstName}
+                </td>
+                <td>
+                    {score}
+                </td>
+                <td>
+                    <input type="button" value="Edit" onClick={this.onClickEdit} />
                     <input type="button" value="Delete" onClick={this.onClickDelete} />
                 </td>
             </tr>
+        )
+
+        const editingRow = (
+            <tr className="editingRow"> 
+                <td>
+                    <input defaultValue={firstName} ></input>
+                    <input defaultValue={lastName} ></input>
+                </td>
+                <td>
+                    <input 
+                        className="editScore"
+                        size="4" 
+                        defaultValue={score}>
+                    </input>
+                </td>
+                <td>
+                    <input type="button" value="Cancel" onClick={this.onClickCancel} />
+                    <input type="button" value="Make Change" onClick={this.onClickChange} />
+                </td>
+            </tr>
+        )
+
+        return (
+            editing? editingRow : fixedRow
         )
     }
 }
@@ -137,6 +186,10 @@ class Leaderboard extends React.Component {
         LEADERS = orderBy(LEADERS, ['score', 'lastName', 'firstName'], ['desc', 'asc', 'asc']);
     }
 
+    editLeader(index) {
+
+    }
+
     deleteLeader(index) {
         LEADERS.splice(index, 1);
         this.setState({leaders: LEADERS})
@@ -152,7 +205,7 @@ class Leaderboard extends React.Component {
         return (
             <div className="Leaderboard">
                 <div className="Leaderboard-header">Leaderboard</div>
-                <LeaderTable leaders={LEADERS} deleteLeader={this.deleteLeader}/>
+                <LeaderTable leaders={LEADERS} editLeader={this.editLeader} deleteLeader={this.deleteLeader}/>
                 <NewLeader addLeader={this.addLeader} />
             </div>
         )

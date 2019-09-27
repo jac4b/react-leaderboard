@@ -83,20 +83,8 @@ class LeaderItem extends React.Component {
 
         const editingRow = (
             <tr className="editingRow"> 
-                <td>
-                    <input defaultValue={firstName} ></input>
-                    <input defaultValue={lastName} ></input>
-                </td>
-                <td>
-                    <input 
-                        className="editScore"
-                        size="4" 
-                        defaultValue={score}>
-                    </input>
-                </td>
-                <td>
-                    <input type="button" value="Cancel" onClick={this.onClickCancel} />
-                    <input type="button" value="Make Change" onClick={this.onClickChange} />
+                <td colSpan="3">
+                    <NewLeader onClickCancel={this.onClickCancel} {...this.props} />
                 </td>
             </tr>
         )
@@ -112,7 +100,8 @@ class NewLeader extends React.Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = {}
+        const thisLeader = LEADERS[this.props.index]
+        this.state = { ...thisLeader }
     }
 
     handleInputChange(e) {
@@ -128,10 +117,11 @@ class NewLeader extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.props.addLeader(this.state);
-        console.log('submitted')
     }
 
     render() {
+        const buttonText = this.props.leader ? "Update Leader" : "Add New Leader"
+
         return (
             <form className="NewLeader" onSubmit={this.handleSubmit}>
                 <label>First Name: 
@@ -142,6 +132,7 @@ class NewLeader extends React.Component {
                         pattern="[A-Za-z]+"
                         required
                         title="Please enter a first name"
+                        defaultValue={this.state.firstName}
                         onChange={this.handleInputChange}/>
                 </label>
                 <label>Last Name:
@@ -152,6 +143,7 @@ class NewLeader extends React.Component {
                         pattern="[A-Za-z]+"
                         required
                         title="Please enter a last name"
+                        defaultValue={this.state.lastName}
                         onChange={this.handleInputChange} />
                 </label>
                 <label>Score:
@@ -163,9 +155,10 @@ class NewLeader extends React.Component {
                         size="4" 
                         pattern="[0-9]{1,3}"
                         required
+                        defaultValue={this.state.score}
                         onChange={this.handleInputChange}/>
                 </label>
-                <input type="submit" value="Add New Leader" />
+                <input type="submit" value={buttonText} />
             </form>
         )
     }
@@ -186,10 +179,6 @@ class Leaderboard extends React.Component {
         LEADERS = orderBy(LEADERS, ['score', 'lastName', 'firstName'], ['desc', 'asc', 'asc']);
     }
 
-    editLeader(index) {
-
-    }
-
     deleteLeader(index) {
         LEADERS.splice(index, 1);
         this.setState({leaders: LEADERS})
@@ -205,12 +194,11 @@ class Leaderboard extends React.Component {
         return (
             <div className="Leaderboard">
                 <div className="Leaderboard-header">Leaderboard</div>
-                <LeaderTable leaders={LEADERS} editLeader={this.editLeader} deleteLeader={this.deleteLeader}/>
+                <LeaderTable leaders={LEADERS} addLeader={this.addLeader} deleteLeader={this.deleteLeader}/>
                 <NewLeader addLeader={this.addLeader} />
             </div>
         )
     }
 }
-
 
 export default Leaderboard

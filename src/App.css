@@ -61,7 +61,6 @@ body {
 
 .Leaderboard td {
   border: 1px solid #c6c6bc;
-  padding: 4px;
 }
 
 .Leaderboard td.score {
@@ -76,15 +75,12 @@ body {
   width: 200px;
 }
 
-.Leaderboard tr.editingRow {
-  background-color: #7d0909;
-}
-
 .NewLeader {
   background-color: #0b1c2a;
   color: white;
   padding: 10px;
   text-align: left;
+  opacity: .8;
 }
 
 .NewLeader label {

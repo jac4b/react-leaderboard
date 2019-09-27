@@ -14,28 +14,21 @@ body {
   text-align: center;
 }
 
-.Leaderboard-header, .NewLeader {
-  background-color: #0b1c2a;
-  color: white;
-  padding: 10px;
-  text-align: left
-}
-
-.NewLeader label {
-  font-size: 12px;
-  margin-right: 14px;
-}
-
-.NewLeader label input {
-  margin-left: 5px;
-}
-
 .Leaderboard {
   width: 600px;
   margin: 30px auto;
   background-color: #13355a;
   color: white;
   padding: 20px;
+}
+
+.Leaderboard-header {
+  background-color: #0b1c2a;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-family: 'Lucida Grande','Lucida Sans Unicode',sans-serif;
+  font-weight: normal;
 }
 
 .Leaderboard table {
@@ -46,9 +39,16 @@ body {
   font-family:"Lucida Grande", "Lucida Sans Unicode", sans-serif;
   font-size:11px;
   line-height:16px;
-  margin:20px 0 30px 0;
+  margin:20px 0;
   overflow-wrap:normal;
   width:100%;
+}
+
+.Leaderboard thead td {
+  background-color: #0b1c2a;
+  color: #3D689B;
+  border: 1px solid #0b1c2a;
+  text-transform: uppercase;
 }
 
 .Leaderboard tr:nth-child(even) {
@@ -61,4 +61,20 @@ body {
 
 .Leaderboard td {
   border: 1px solid #c6c6bc
+}
+
+.NewLeader {
+  background-color: #0b1c2a;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.NewLeader label {
+  font-size: 12px;
+  margin-right: 14px;
+}
+
+.NewLeader label input {
+  margin-left: 5px;
 }

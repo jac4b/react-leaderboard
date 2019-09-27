@@ -1,9 +1,10 @@
 import React from 'react'
+import orderBy from 'lodash/orderBy'
 
 var LEADERS = [
     {firstName: 'Alice', lastName: 'Geary', score: '96'},
-    {firstName: 'John', lastName: 'Junge', score: '96'},
-    {firstName: 'Rob', lastName: 'Vera', score: '88'}
+    {firstName: 'Rob', lastName: 'Vera', score: '88'},
+    {firstName: 'John', lastName: 'Junge', score: '96'}
 ]
 
 class LeaderTable extends React.Component {
@@ -60,8 +61,8 @@ class LeaderItem extends React.Component {
 class NewLeader extends React.Component {
     constructor(props) {
         super(props);
-        this.onClickNew = this.onClickNew.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {}
     }
 
@@ -75,19 +76,23 @@ class NewLeader extends React.Component {
         });
     }
 
-    onClickNew(e) {
+    handleSubmit(e) {
         e.preventDefault();
         this.props.addLeader(this.state);
+        console.log('submitted')
     }
 
     render() {
         return (
-            <form className="NewLeader" >
+            <form className="NewLeader" onSubmit={this.handleSubmit}>
                 <label>First Name: 
                     <input
                         name="firstName"
                         type="text" 
                         size="16"
+                        pattern="[A-Za-z]+"
+                        required
+                        title="Please enter a first name"
                         onChange={this.handleInputChange}/>
                 </label>
                 <label>Last Name:
@@ -95,6 +100,9 @@ class NewLeader extends React.Component {
                         name="lastName"
                         type="text"
                         size="16"
+                        pattern="[A-Za-z]+"
+                        required
+                        title="Please enter a last name"
                         onChange={this.handleInputChange} />
                 </label>
                 <label>Score:
@@ -104,9 +112,11 @@ class NewLeader extends React.Component {
                         min="0"
                         max="100"
                         size="4" 
+                        pattern="[0-9]{1,3}"
+                        required
                         onChange={this.handleInputChange}/>
                 </label>
-                <input type="submit" value="Add New Leader" onClick={this.onClickNew} />
+                <input type="submit" value="Add New Leader" />
             </form>
         )
     }
@@ -117,9 +127,14 @@ class Leaderboard extends React.Component {
         super(props);
         this.deleteLeader = this.deleteLeader.bind(this);
         this.addLeader = this.addLeader.bind(this);
+        this.sortLeaders();
         this.state = {
             leaders: LEADERS
         };
+    }
+
+    sortLeaders() {
+        LEADERS = orderBy(LEADERS, ['score', 'lastName', 'firstName'], ['desc', 'asc', 'asc']);
     }
 
     deleteLeader(index) {
@@ -129,7 +144,8 @@ class Leaderboard extends React.Component {
 
     addLeader(newLeader) {
         LEADERS.push(newLeader);
-        this.setState({leaders: LEADERS})
+        this.sortLeaders();
+        this.setState({leaders: LEADERS});
     }
 
     render() {

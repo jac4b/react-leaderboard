@@ -38,8 +38,7 @@ class LeaderItem extends React.Component {
         super(props);
         this.onClickDelete = this.onClickDelete.bind(this);
         this.onClickEdit = this.onClickEdit.bind(this);
-        this.onClickCancel = this.onClickCancel.bind(this);
-        this.onClickChange = this.onClickChange.bind(this);
+        this.stopEditing = this.stopEditing.bind(this);
         this.state = { editing: false };
     }
 
@@ -51,12 +50,8 @@ class LeaderItem extends React.Component {
         this.setState({ editing: true })
     }
 
-    onClickCancel() {
+    stopEditing() {
         this.setState({ editing: false })
-    }
-
-    onClickChange() {
-
     }
 
     render() {
@@ -84,7 +79,7 @@ class LeaderItem extends React.Component {
         const editingRow = (
             <tr className="editingRow"> 
                 <td colSpan="3">
-                    <NewLeader onClickCancel={this.onClickCancel} {...this.props} />
+                    <NewLeader editing stopEditing={this.stopEditing} {...this.props} />
                 </td>
             </tr>
         )
@@ -100,6 +95,7 @@ class NewLeader extends React.Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.stopEditing = this.stopEditing.bind(this);
         const thisLeader = LEADERS[this.props.index]
         this.state = { ...thisLeader }
     }
@@ -117,10 +113,15 @@ class NewLeader extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.props.addLeader(this.state);
+        {this.props.editing && this.stopEditing(e)}
+    }
+
+    stopEditing(e) {
+        this.props.stopEditing(e);
     }
 
     render() {
-        const buttonText = this.props.leader ? "Update Leader" : "Add New Leader"
+        const buttonText = this.props.editing ? "Update" : "Add New Leader"
 
         return (
             <form className="NewLeader" onSubmit={this.handleSubmit}>
@@ -159,6 +160,7 @@ class NewLeader extends React.Component {
                         onChange={this.handleInputChange}/>
                 </label>
                 <input type="submit" value={buttonText} />
+                {this.props.editing && <input type="button" value="Cancel" onClick={this.stopEditing}></input>}
             </form>
         )
     }

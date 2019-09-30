@@ -15,7 +15,7 @@ body {
 }
 
 .Leaderboard {
-  width: 600px;
+  width: 620px;
   margin: 30px auto;
   background-color: #13355a;
   color: white;
@@ -60,21 +60,34 @@ body {
 }
 
 .Leaderboard td {
-  border: 1px solid #c6c6bc
+  border: 1px solid #c6c6bc;
 }
 
-.NewLeader {
+.Leaderboard td.score {
+  width: 60px;
+}
+
+.Leaderboard .editScore {
+  text-align: center;
+}
+
+.Leaderboard td.buttons {
+  width: 200px;
+}
+
+.Leaderboard .NewLeader {
   background-color: #0b1c2a;
   color: white;
   padding: 10px;
   text-align: left;
+  opacity: .8;
 }
 
-.NewLeader label {
+.Leaderboard .NewLeader label {
   font-size: 12px;
   margin-right: 14px;
 }
 
-.NewLeader label input {
+.Leaderboard .NewLeader label input {
   margin-left: 5px;
 }

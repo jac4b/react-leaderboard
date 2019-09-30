@@ -36,17 +36,17 @@ class LeaderTable extends React.Component {
 class LeaderItem extends React.Component {
     constructor(props) {
         super(props);
-        this.onClickDelete = this.onClickDelete.bind(this);
-        this.onClickEdit = this.onClickEdit.bind(this);
+        this.deleteLeader = this.deleteLeader.bind(this);
+        this.editLeader = this.editLeader.bind(this);
         this.stopEditing = this.stopEditing.bind(this);
         this.state = { editing: false };
     }
 
-    onClickDelete() {
-        this.props.deleteLeader(this.props.index);
+    deleteLeader(index) {
+        this.props.deleteLeader(index || this.props.index);
     }
 
-    onClickEdit() {
+    editLeader() {
         this.setState({ editing: true })
     }
 
@@ -70,8 +70,8 @@ class LeaderItem extends React.Component {
                     {score}
                 </td>
                 <td>
-                    <input type="button" value="Edit" onClick={this.onClickEdit} />
-                    <input type="button" value="Delete" onClick={this.onClickDelete} />
+                    <input type="button" value="Edit" onClick={this.editLeader} />
+                    <input type="button" value="Delete" onClick={this.deleteLeader} />
                 </td>
             </tr>
         )
@@ -79,7 +79,7 @@ class LeaderItem extends React.Component {
         const editingRow = (
             <tr className="editingRow"> 
                 <td colSpan="3">
-                    <NewLeader editing stopEditing={this.stopEditing} {...this.props} />
+                    <NewLeader editing stopEditing={this.stopEditing} deleteLeader={this.deleteLeader} {...this.props} />
                 </td>
             </tr>
         )
@@ -95,6 +95,7 @@ class NewLeader extends React.Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteLeader = this.deleteLeader.bind(this);
         this.stopEditing = this.stopEditing.bind(this);
         const thisLeader = LEADERS[this.props.index]
         this.state = { ...thisLeader }
@@ -112,12 +113,25 @@ class NewLeader extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        {this.props.editing && this.deleteLeader()}
+        {this.props.editing && this.stopEditing()}
         this.props.addLeader(this.state);
-        {this.props.editing && this.stopEditing(e)}
+
+        var inputs = e.target.getElementsByTagName('input');
+        for (var i=0; i<inputs.length; i++) {
+            var att = inputs[i].getAttribute('type');
+            if (att == 'text' || 'number') {
+                inputs[i].value = '';
+            }
+        }
     }
 
-    stopEditing(e) {
-        this.props.stopEditing(e);
+    deleteLeader() {
+        this.props.deleteLeader(this.props.index);
+    }
+
+    stopEditing() {
+        this.props.stopEditing();
     }
 
     render() {
@@ -197,7 +211,7 @@ class Leaderboard extends React.Component {
             <div className="Leaderboard">
                 <div className="Leaderboard-header">Leaderboard</div>
                 <LeaderTable leaders={LEADERS} addLeader={this.addLeader} deleteLeader={this.deleteLeader}/>
-                <NewLeader addLeader={this.addLeader} />
+                <NewLeader addLeader={this.addLeader} deleteLeader={this.deleteLeader}/>
             </div>
         )
     }

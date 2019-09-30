@@ -75,7 +75,7 @@ body {
   width: 200px;
 }
 
-.NewLeader {
+.Leaderboard .NewLeader {
   background-color: #0b1c2a;
   color: white;
   padding: 10px;
@@ -83,11 +83,11 @@ body {
   opacity: .8;
 }
 
-.NewLeader label {
+.Leaderboard .NewLeader label {
   font-size: 12px;
   margin-right: 14px;
 }
 
-.NewLeader label input {
+.Leaderboard .NewLeader label input {
   margin-left: 5px;
 }
